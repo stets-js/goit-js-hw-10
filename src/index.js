@@ -46,7 +46,6 @@ function makeMarkup(data) {
   } else {
     refreshMarkup(info);
     list.innerHTML = listMarkup(data);
-    list.classList.add('list');
   }
 }
 
