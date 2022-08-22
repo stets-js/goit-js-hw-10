@@ -15,20 +15,20 @@ function onInputSearch(e) {
   if (!inputRequest) {
     refreshMarkup(list);
     refreshMarkup(info);
+    return;
   }
 
   fetchCountries(inputRequest)
     .then(data => {
-      console.log(data);
       if (data.length > 10) {
         Notify.warning(
           '⚠️Too many matches found. Please enter a more specific name⚠️'
         );
+        return;
       } else {
         makeMarkup(data);
       }
     })
-
     .catch(err => {
       refreshMarkup(list);
       refreshMarkup(info);
@@ -41,6 +41,7 @@ function refreshMarkup(el) {
 }
 
 function makeMarkup(data) {
+  console.log(data);
   if (data.length === 1) {
     refreshMarkup(list);
     info.innerHTML = infoMarkup(data);
@@ -54,7 +55,7 @@ function infoMarkup(data) {
     ({ name, capital, population, flags, languages }) =>
       `<h1><img src="${flags.svg}" alt="${
         name.official
-      }" width="40" height="40">${name.official}</h1>
+      }" width="50" height="50">${name.official}</h1>
       <p>Capital: ${capital}</p>
       <p>Population: ${population}</p>
       <p>Languages: ${Object.values(languages)}</p>`
