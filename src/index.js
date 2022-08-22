@@ -25,9 +25,8 @@ function onInputSearch(e) {
           '⚠️Too many matches found. Please enter a more specific name⚠️'
         );
         return;
-      } else {
-        makeMarkup(data);
       }
+      makeMarkup(data);
     })
     .catch(err => {
       refreshMarkup(list);
@@ -41,32 +40,35 @@ function refreshMarkup(el) {
 }
 
 function makeMarkup(data) {
-  console.log(data);
   if (data.length === 1) {
     refreshMarkup(list);
     info.innerHTML = infoMarkup(data);
+  } else {
+    refreshMarkup(info);
+    list.innerHTML = listMarkup(data);
+    list.classList.add('list');
   }
-  refreshMarkup(info);
-  list.innerHTML = listMarkup(data);
 }
 
 function infoMarkup(data) {
-  return data.map(
-    ({ name, capital, population, flags, languages }) =>
-      `<h1><img src="${flags.svg}" alt="${
-        name.official
-      }" width="50" height="50">${name.official}</h1>
-      <p>Capital: ${capital}</p>
-      <p>Population: ${population}</p>
-      <p>Languages: ${Object.values(languages)}</p>`
-  );
+  return data
+    .map(
+      ({ name, capital, population, flags, languages }) =>
+        `<h1><img src="${flags.png}" alt="${
+          name.official
+        }" width="50" height="40">  ${name.official}</h1>
+      <p><b>Capital:</b> ${capital}</p>
+      <p><b>Population:</b> ${population}</p>
+      <p><b>Languages:</b> ${Object.values(languages)}</p>`
+    )
+    .join('');
 }
 
 function listMarkup(data) {
   return data
     .map(
       ({ name, flags }) =>
-        `<li><img src="${flags.svg}" alt="${name.official}" width="60" height="40">${name.official}</li>`
+        `<li class="item"><img src="${flags.png}" alt="${name.official}" width="50" height="40"><p>${name.official}</p></li>`
     )
     .join('');
 }
